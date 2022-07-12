@@ -10,4 +10,19 @@ async function getLines() {
     return res.data.result;
 }
 
-export default getLines;
+async function getStations(type, code) {
+    if(type && code) {
+        const res = await axios.get(
+            `${apiURL}stations/${type}/${code}`
+        );
+        console.log("res : %o", res.data.result);
+        return res.data.result.stations;
+    }
+
+    return [];
+}
+
+export {
+    getLines,
+    getStations
+};

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import getLines from "../functions/apiCalls";
+import { getLines } from "../functions/apiCalls";
 
 
 function useLines() {

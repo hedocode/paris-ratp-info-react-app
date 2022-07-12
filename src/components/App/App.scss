@@ -1,5 +1,9 @@
 ul.types {
     li {
         text-transform: capitalize;
+        &.active {
+            background-color: black;
+            color: white;
+        }
     }
 }
