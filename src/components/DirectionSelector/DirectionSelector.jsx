@@ -14,7 +14,7 @@ function DirectionSelector({
                 <select
                     value={chosenWay}
                     onChange={
-                    (e) => setChosenWay(e.target.value)
+                        (e) => setChosenWay(e.target.value)
                     }
                 >
                     <option value="all">Toutes directions</option>

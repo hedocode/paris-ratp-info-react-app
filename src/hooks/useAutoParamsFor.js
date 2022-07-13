@@ -3,14 +3,19 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import usePreviousValue from './usePreviousValue';
 
-function useAutoParamsFor(paramName, value, setterToEmptyIfNoPrevious) {
+function useAutoParamsFor(
+    paramName,
+    value,
+    setterToEmptyIfNoPrevious,
+    defaultValue
+) {
     const [searchParams, setSearchParams] = useSearchParams();
     const previousValue = usePreviousValue(value);
 
     useEffect(
         () => {
             if (setterToEmptyIfNoPrevious && previousValue) {
-                setterToEmptyIfNoPrevious("");
+                setterToEmptyIfNoPrevious(defaultValue || "");
             }
             const newParams = searchParams;
             if(value) {

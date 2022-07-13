@@ -13,6 +13,8 @@ import StationSelector from '../StationSelector/StationSelector';
 import './App.scss';
 
 function App() {
+  const wayDefaultValue = "all";
+
   // Routing Infos
   const [searchParams, ] = useSearchParams();
   const type = searchParams.get("type");
@@ -24,7 +26,7 @@ function App() {
   const [chosenType, setChosenType] = useState(type ?? "");
   const [chosenLineCode, setChosenLineCode] = useState(line ?? "");
   const [chosenStation, setChosenStation] = useState(station ?? "");
-  const [chosenWay, setChosenWay] = useState(way ?? "all");
+  const [chosenWay, setChosenWay] = useState(way ?? wayDefaultValue);
 
   const [stateToForceUpdate, setStateToForceUpdate] = useState(false);
   function forceApiRecall() {
@@ -43,6 +45,7 @@ function App() {
           if(station) {
             setChosenStation(station);
             if(way) {
+              console.log("azhghauzghuiazghuhez : %o", way);
               setChosenWay(way);
             }
           }
@@ -52,7 +55,7 @@ function App() {
   )
   useAutoParamsFor("type", chosenType, setChosenLineCode);
   useAutoParamsFor("line", chosenLineCode, setChosenStation);
-  useAutoParamsFor("station", chosenStation, setChosenWay);
+  useAutoParamsFor("station", chosenStation, setChosenWay, wayDefaultValue);
   useAutoParamsFor("way", chosenWay);
 
 
@@ -62,7 +65,7 @@ function App() {
   const stations = useStations(chosenType, chosenLineCode, stateToForceUpdate);
   const destinations = useDestinations(chosenType, chosenLineCode, stateToForceUpdate);
   const ways = useMemo(
-    () => (chosenWay === "all" ?
+    () => (chosenWay === wayDefaultValue ?
         (destinations && destinations.length) ?
           destinations.map(d => d.way)
         :
@@ -176,7 +179,7 @@ function App() {
                   <span className='info'>
                     {newDate ? (
                       <Fragment>
-                        {newDate.getHours()}h{("0" + newDate.getMinutes()).slice(-2)} ({schedule.message})
+                        {("0" + newDate.getHours()).slice(-2)}h{("0" + newDate.getMinutes()).slice(-2)} ({schedule.message})
                       </Fragment>
                     ) : (
                       schedule.message
