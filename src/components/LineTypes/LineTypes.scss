@@ -1,0 +1,65 @@
+@use "../../style/lib/lib.scss" as *;
+
+.types {
+    padding: 0px;
+    margin: 12px auto;
+    display: flex;
+    // flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+
+    
+
+    &__wrapper {
+        $blur-width: 20px;
+        position: relative;
+        &::before, &::after {
+            position: absolute;
+            content: "";
+            top: 0px;
+            height: 100%;
+            width: $blur-width;
+        }
+
+        &::before {
+            left: 0px;
+            background: linear-gradient(to right, #FFF, rgba(#FFF, 0));
+        }
+
+        &::after {
+            right: 0px;
+            background: linear-gradient(to left, #FFF, rgba(#FFF, 0));
+        }
+
+        &__content {
+            display: flex;
+            overflow: auto;
+            padding: 0px $blur-width;
+        }
+    }
+
+    li {
+        display: flex;
+        transition: all 0.2s ease-in-out;
+        border-radius: 3px;
+        padding: 7px 14px;
+        text-transform: capitalize;
+        margin-bottom: 12px;
+        &:not(:last-child) {
+            margin-right: 10px;
+        }
+
+        svg {
+            margin-right: 12px;
+        }
+        &.active {
+            background-color: $green-ratp;
+            color: white;
+            text-shadow: 2px 2px 3px black, 0px 0px 1px black;
+            box-shadow: inset 2px 2px 5px rgba(black, 0.5);
+        }
+        &:not(.active) {
+            cursor: pointer;
+        }
+    }
+}

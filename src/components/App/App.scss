@@ -1,9 +1,68 @@
-ul.types {
-    li {
-        text-transform: capitalize;
-        &.active {
-            background-color: black;
-            color: white;
+@use "../../style/lib/lib.scss" as *;
+
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+    background-color: $light-grey-ratp;
+    font-family: $public-sans;
+}
+
+header {
+    position: sticky;
+    top: 0px;
+    padding: 12px 12px 0px 12px;
+    background-color: white;
+    box-shadow: 1px 1px 5px rgba(#000, 0.5);
+    margin-bottom: 12px;
+
+    h1 {
+        margin: 0px;
+        font-size: 22px;
+    }
+}
+
+.user-form {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+
+    > * {
+        margin: 6px;
+        flex-grow: 1;
+    }
+}
+
+.results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+
+    > * {
+        max-width: 500px;
+        width: 100%;
+
+        padding: 12px;
+        margin-bottom: 12px;
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    &__item {
+        background-color: rgb(182, 255, 217);
+
+        .info {
+            margin-left: auto;
         }
+    }
+
+    .error {
+        background-color: rgb(255, 182, 182);
     }
 }

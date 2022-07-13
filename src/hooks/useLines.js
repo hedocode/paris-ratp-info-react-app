@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react";
-import { getLines } from "../functions/apiCalls";
+import {
+    useEffect,
+    useState
+} from "react";
+import {
+    getLines
+} from "../functions/apiCalls";
 
 
 function useLines() {
     const [lines, setLines] = useState({});
 
     async function gatherLines() {
-      setLines(await getLines());
+        setLines(await getLines());
     }
-  
+
     useEffect(
-      () => {
-        gatherLines();
-      }, []
+        () => {
+            gatherLines();
+        }, []
     );
 
     return lines;

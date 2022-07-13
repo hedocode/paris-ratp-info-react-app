@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { getStations } from "../functions/apiCalls";
 
-function useStations(currentType, currentLineCode) {
+function useStations(chosenType, chosenLineCode) {
     const [stations, setStations] = useState({});
 
     async function gatherStations() {
-        setStations(await getStations(currentType, currentLineCode))
+        setStations(await getStations(chosenType, chosenLineCode))
     }
 
     useEffect(
         () => {
+            setStations({});
             gatherStations();
-        }, [currentLineCode]
+        }, [chosenLineCode]
     )
 
     return stations;

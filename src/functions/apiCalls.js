@@ -12,11 +12,40 @@ async function getLines() {
 
 async function getStations(type, code) {
     if(type && code) {
+        try {
+            const res = await axios.get(
+                `${apiURL}stations/${type}/${code}`
+            );
+            return res.data.result.stations;
+        } catch(err) {
+            console.log("err : %o", err);
+            return err.response.data.result.code
+        }
+    }
+
+    return [];
+}
+
+async function getDestinations(type, code) {
+    if(type && code) {
+        try {
+            const res = await axios.get(
+                `${apiURL}destinations/${type}/${code}`
+            );
+            return res.data.result.destinations;
+        } catch(err) {
+            return err.response.data.result.code
+        }
+    }
+    return [];
+}
+
+async function getSchedules(type, code, station, way) {
+    if(type && code && station && way) {
         const res = await axios.get(
-            `${apiURL}stations/${type}/${code}`
+            `${apiURL}schedules/${type}/${code}/${station}/${way}`
         );
-        console.log("res : %o", res.data.result);
-        return res.data.result.stations;
+        return res.data.result.schedules || res.data.result.code;
     }
 
     return [];
@@ -24,5 +53,7 @@ async function getStations(type, code) {
 
 export {
     getLines,
-    getStations
+    getStations,
+    getDestinations,
+    getSchedules
 };
