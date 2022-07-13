@@ -24,6 +24,7 @@ header {
     }
 }
 
+
 .user-form {
     margin: 0px;
     padding: 0px;
@@ -48,11 +49,13 @@ header {
     }
 }
 
-.results {
+
+.results, .infoTraffic {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 12px;
+    text-align: center;
 
     > * {
         max-width: 500px;
@@ -66,6 +69,9 @@ header {
         justify-content: space-between;
     }
 
+}
+
+.results {
     &__item {
         background-color: white;
         border-left: 3px solid transparent;

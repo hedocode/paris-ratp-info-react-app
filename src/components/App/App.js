@@ -6,6 +6,7 @@ import useDestinations from '../../hooks/useDestinations';
 import useLines from '../../hooks/useLines';
 import useSchedules from '../../hooks/useSchedules';
 import useStations from '../../hooks/useStations';
+import useTrafficInfo from '../../hooks/useTrafficInfo';
 import DirectionSelector from '../DirectionSelector/DirectionSelector';
 import LineSelector from '../LineSelector/LineSelector';
 import LineTypes from '../LineTypes/LineTypes';
@@ -34,7 +35,6 @@ function App() {
     setStateToForceUpdate(!stateToForceUpdate);
   }
 
-  console.log("chosenWayu : %o", chosenWay);
 
   // Routing init / changes
   useEffect(
@@ -46,7 +46,6 @@ function App() {
           if(station) {
             setChosenStation(station);
             if(way) {
-              console.log("azhghauzghuiazghuhez : %o", way);
               setChosenWay(way);
             }
           }
@@ -82,6 +81,9 @@ function App() {
     ways,
     stateToForceUpdate
   );
+  const trafficInfo = useTrafficInfo(chosenType, chosenLineCode);
+
+  
 
   
   // Removing lines duplicates (both directions)
@@ -153,6 +155,12 @@ function App() {
           onRetry={forceApiRecall}
           schedules={schedules}
         />
+      </section>
+
+      <section className='infoTraffic'>
+        <span>
+          {trafficInfo}
+        </span>
       </section>
     </main>
   );

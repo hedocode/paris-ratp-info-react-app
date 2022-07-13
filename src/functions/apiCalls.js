@@ -18,7 +18,6 @@ async function getStations(type, code) {
             );
             return res.data.result.stations;
         } catch(err) {
-            console.log("err : %o", err);
             return err.response.data.result.code
         }
     }
@@ -51,9 +50,21 @@ async function getSchedules(type, code, station, way) {
     return [];
 }
 
+async function getTraffic(type, code) {
+    if(type && code) {
+        const res = await axios.get(
+            `${apiURL}traffic/${type}/${code}`
+        );
+        return res.data.result.message;
+    } else {
+        return "";
+    }
+}
+
 export {
     getLines,
     getStations,
     getDestinations,
-    getSchedules
+    getSchedules,
+    getTraffic
 };
