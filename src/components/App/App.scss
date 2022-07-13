@@ -55,7 +55,11 @@ header {
     }
 
     &__item {
-        background-color: rgb(182, 255, 217);
+        background-color: white;
+        border-left: 3px solid transparent;
+        &:hover {
+            border-left-color: $green-ratp;
+        }
 
         .info {
             margin-left: auto;
