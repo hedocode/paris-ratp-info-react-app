@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import "../../style/select.scss";
+import React from "react";
+import Select from "../Select/Select";
 
 function StationSelector({
     stations,
@@ -7,28 +7,23 @@ function StationSelector({
     setChosenStation
 }) {
     return (
-        <Fragment>
-            {!!stations.length && (
-                <select
-                    value={chosenStation}
-                    onChange={
-                        (e) => setChosenStation(e.target.value)
-                    }
-                >
-                <option value=""> Choissisez une station</option>
-                {stations.map(
-                    (item) => (
+        <Select
+            defaultOptionText="Choissisez une station"
+            items={stations}
+            state={chosenStation}
+            setState={setChosenStation}
+            displayCondition={!!stations.length}
+            itemsOptionMapper={
+                (item) => (
                     <option
                         value={item.slug}
                         key={"station-" + item.slug}
                     >
                         {item.name}
                     </option>
-                    )
-                )}
-                </select>
-            )}
-        </Fragment>
+                )
+            }
+        />
     )
 }
 

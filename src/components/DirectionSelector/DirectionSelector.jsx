@@ -1,4 +1,5 @@
-import React, { Fragment } from "react";
+import React from "react";
+import Select from "../Select/Select";
 
 
 function DirectionSelector({
@@ -9,29 +10,24 @@ function DirectionSelector({
     destinations
 }) {
     return (
-        <Fragment>
-            {(chosenLineCode && chosenStation) && (
-                <select
-                    value={chosenWay}
-                    onChange={
-                        (e) => setChosenWay(e.target.value)
-                    }
-                >
-                    <option value="all">Toutes directions</option>
-                    {(destinations && !!destinations.length) && destinations.map(
-                    (destination) => (
-                        <option
+        <Select
+            defaultOptionText="Toutes directions"
+            defaultValue="all"
+            items={destinations}
+            state={chosenWay}
+            setState={setChosenWay}
+            displayCondition={(chosenLineCode && chosenStation)}
+            itemsOptionMapper={
+                (destination) => (
+                    <option
                         value={destination.way}
                         key={destination.way}
-                        >
+                    >
                         {destination.name}
-                        </option>
-                    )
-                    )
-                    }
-                </select>
-            )}
-        </Fragment>
+                    </option>
+                )
+            }
+        />
     );
 }
 

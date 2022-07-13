@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import "../../style/select.scss";
+import React from "react";
+import Select from "../Select/Select";
 
 function LineSelector({
     chosenType,
@@ -7,32 +7,25 @@ function LineSelector({
     setChosenLineCode,
     lines
 }) {
-    return (
-        <Fragment>
-            {chosenType && (
-                <select
-                value={chosenLineCode}
-                onChange={
-                    (e) => setChosenLineCode(e.target.value)
-                }
-                >
-                <option value="">
-                    Choissisez une ligne
-                </option>
 
-                {lines && lines.map(
-                    (item) => (
+    return (
+        <Select
+            defaultOptionText="Choissisez une ligne"
+            items={lines}
+            state={chosenLineCode}
+            setState={setChosenLineCode}
+            displayCondition={chosenType}
+            itemsOptionMapper={
+                (item) => (
                     <option
                         value={item.code}
                         key={"line-" + item.code}
                     >
                         {item.name}
                     </option>
-                    )
-                )}
-                </select>
-            )}
-        </Fragment>
+                )
+            }
+        />
     )
 }
 

@@ -9,6 +9,7 @@ import useStations from '../../hooks/useStations';
 import DirectionSelector from '../DirectionSelector/DirectionSelector';
 import LineSelector from '../LineSelector/LineSelector';
 import LineTypes from '../LineTypes/LineTypes';
+import SchedulesResults from '../ScheduleResult/ScheduleResult';
 import StationSelector from '../StationSelector/StationSelector';
 import './App.scss';
 
@@ -82,7 +83,6 @@ function App() {
     stateToForceUpdate
   );
 
-  const now = new Date();
   
   // Removing lines duplicates (both directions)
   const linesSet = new Set();
@@ -142,56 +142,17 @@ function App() {
             chosenStation={chosenStation}
             chosenWay={chosenWay}
             setChosenWay={setChosenWay}
-            setChosenStation={setChosenStation}
             destinations={destinations}
           />
         </fieldset>
       </section>
 
       <section className='results'>
-        {error && (
-          <div className='error'>
-            Désolé, une erreur est survenue
-            <button
-              onClick={forceApiRecall}
-            >
-              Réessayer
-            </button>
-          </div>
-        )}
-        {Array.isArray(schedules) ? (
-          schedules.map(
-            (schedule, index) => {
-              if(!isNaN(parseInt(schedule))) {
-                return;
-              }
-              const parsedTime = parseInt(schedule.message.split(" ")[0]);
-              const messageIsTime = !isNaN(parsedTime);
-              const newDate = messageIsTime ? new Date(now.getTime() + parsedTime*60000) : undefined;
-              return (
-                <div
-                  className='results__item'
-                  key={"schedule-" + index}
-                >
-                  <span>
-                    {schedule.destination}
-                  </span>
-                  <span className='info'>
-                    {newDate ? (
-                      <Fragment>
-                        {("0" + newDate.getHours()).slice(-2)}h{("0" + newDate.getMinutes()).slice(-2)} ({schedule.message})
-                      </Fragment>
-                    ) : (
-                      schedule.message
-                    )}
-                  </span>
-                </div>
-              )
-            }
-          )
-        ) : (
-          <div>Chargement en cours...</div>
-        )}
+        <SchedulesResults
+          error={error}
+          onRetry={forceApiRecall}
+          schedules={schedules}
+        />
       </section>
     </main>
   );
