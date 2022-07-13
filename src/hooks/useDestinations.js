@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getDestinations } from "../functions/apiCalls";
 
 
-function useDestinations(type, code) {
+function useDestinations(type, code, forceUpdate) {
     const [destinations, setDestinations] = useState([]);
 
     async function gatherDestination() {
@@ -13,7 +13,7 @@ function useDestinations(type, code) {
         () => {
             setDestinations([]);
             gatherDestination();
-        }, [type, code]
+        }, [type, code, forceUpdate]
     )
 
     return destinations;

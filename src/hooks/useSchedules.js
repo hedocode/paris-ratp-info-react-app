@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getSchedules } from "../functions/apiCalls";
 
 
-function useSchedules(type, code, station, way) {
+function useSchedules(type, code, station, way, forceUpdate) {
     const [schedules, setSchedules] = useState({});
 
     function sortSchedules(a, b) {
@@ -59,7 +59,7 @@ function useSchedules(type, code, station, way) {
         () => {
             setSchedules("Loading");
             gatherSchedules();
-        }, [type, code, station, way]
+        }, [type, code, station, way, forceUpdate]
     )
 
     return schedules;

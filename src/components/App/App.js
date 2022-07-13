@@ -4,7 +4,6 @@ import { useSearchParams } from 'react-router-dom';
 import useAutoParamsFor from '../../hooks/useAutoParamsFor';
 import useDestinations from '../../hooks/useDestinations';
 import useLines from '../../hooks/useLines';
-import usePreviousValue from '../../hooks/usePreviousValue';
 import useSchedules from '../../hooks/useSchedules';
 import useStations from '../../hooks/useStations';
 import DirectionSelector from '../DirectionSelector/DirectionSelector';
@@ -25,7 +24,14 @@ function App() {
   const [chosenType, setChosenType] = useState(type ?? "");
   const [chosenLineCode, setChosenLineCode] = useState(line ?? "");
   const [chosenStation, setChosenStation] = useState(station ?? "");
-  const [chosenWay, setChosenWay] = useState(way ?? "");
+  const [chosenWay, setChosenWay] = useState(way ?? "all");
+
+  const [stateToForceUpdate, setStateToForceUpdate] = useState(false);
+  function forceApiRecall() {
+    setStateToForceUpdate(!stateToForceUpdate);
+  }
+
+  console.log("chosenWayu : %o", chosenWay);
 
   // Routing init / changes
   useEffect(
@@ -53,8 +59,8 @@ function App() {
   // Data from API
   const linesObject = useLines();
   const linesTypes = Object.keys(linesObject);
-  const stations = useStations(chosenType, chosenLineCode);
-  const destinations = useDestinations(chosenType, chosenLineCode);
+  const stations = useStations(chosenType, chosenLineCode, stateToForceUpdate);
+  const destinations = useDestinations(chosenType, chosenLineCode, stateToForceUpdate);
   const ways = useMemo(
     () => (chosenWay === "all" ?
         (destinations && destinations.length) ?
@@ -69,7 +75,8 @@ function App() {
     chosenType,
     chosenLineCode,
     chosenStation,
-    ways
+    ways,
+    stateToForceUpdate
   );
 
   const now = new Date();
@@ -99,7 +106,7 @@ function App() {
   return (
     <main>
       <header>
-        <h1>Paris RAPT Informations</h1>
+        <h1>Paris RATP Informations</h1>
           
         <LineTypes
           linesTypes={linesTypes}
@@ -108,33 +115,34 @@ function App() {
         />
       </header>
       
-      <section className='user-form'>
-        
-        {!chosenType && (
-          <div>Choissisez un type de transport ci-dessus</div>
-        )}
+      <section className='user-form__wrapper'>
+        <fieldset className='user-form'>
+          {!chosenType && (
+            <div>Choissisez un type de transport ci-dessus</div>
+          )}
 
-        <LineSelector
-          chosenLineCode={chosenLineCode}
-          setChosenLineCode={setChosenLineCode}
-          chosenType={chosenType}
-          lines={lines}
-        />
-        
-        <StationSelector
-          chosenStation={chosenStation}
-          setChosenStation={setChosenStation}
-          stations={stations}
-        />
+          <LineSelector
+            chosenLineCode={chosenLineCode}
+            setChosenLineCode={setChosenLineCode}
+            chosenType={chosenType}
+            lines={lines}
+          />
+          
+          <StationSelector
+            chosenStation={chosenStation}
+            setChosenStation={setChosenStation}
+            stations={stations}
+          />
 
-        <DirectionSelector
-          chosenLineCode={chosenLineCode}
-          chosenStation={chosenStation}
-          chosenWay={chosenWay}
-          setChosenWay={setChosenWay}
-          setChosenStation={setChosenStation}
-          destinations={destinations}
-        />
+          <DirectionSelector
+            chosenLineCode={chosenLineCode}
+            chosenStation={chosenStation}
+            chosenWay={chosenWay}
+            setChosenWay={setChosenWay}
+            setChosenStation={setChosenStation}
+            destinations={destinations}
+          />
+        </fieldset>
       </section>
 
       <section className='results'>
@@ -142,11 +150,7 @@ function App() {
           <div className='error'>
             Désolé, une erreur est survenue
             <button
-              onClick={
-                () => {
-
-                }
-              }
+              onClick={forceApiRecall}
             >
               Réessayer
             </button>

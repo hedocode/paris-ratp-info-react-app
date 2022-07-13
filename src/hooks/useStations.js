@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getStations } from "../functions/apiCalls";
 
-function useStations(chosenType, chosenLineCode) {
+function useStations(chosenType, chosenLineCode, forceUpdate) {
     const [stations, setStations] = useState({});
 
     async function gatherStations() {
@@ -12,7 +12,7 @@ function useStations(chosenType, chosenLineCode) {
         () => {
             setStations({});
             gatherStations();
-        }, [chosenLineCode]
+        }, [chosenLineCode, forceUpdate]
     )
 
     return stations;

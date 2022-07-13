@@ -25,10 +25,22 @@ header {
 }
 
 .user-form {
+    margin: 0px;
+    padding: 0px;
+    border: 0;
+
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: 24px;
+    width: 100%;
+    @media screen and (min-width: 1200px) {
+        max-width: 80%;
+    }
+    
+    &__wrapper {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 24px;
+    }
 
     > * {
         margin: 6px;
