@@ -1,10 +1,11 @@
 import React, { Fragment } from "react";
 import "./Select.scss";
 
+
+
 function Select({
     displayCondition,
-    state,
-    setState,
+    selectProps,
     defaultOptionText,
     defaultValue = "",
     items,
@@ -14,10 +15,7 @@ function Select({
         <Fragment>
             { displayCondition && (
                 <select
-                    value={state}
-                    onChange={
-                        (e) => setState(e.target.value)
-                    }
+                    {...selectProps}
                 >
                     <option value={defaultValue}>
                         {defaultOptionText}

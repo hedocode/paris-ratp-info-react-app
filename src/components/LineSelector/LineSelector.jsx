@@ -12,8 +12,10 @@ function LineSelector({
         <Select
             defaultOptionText="Choissisez une ligne"
             items={lines}
-            state={chosenLineCode}
-            setState={setChosenLineCode}
+            selectProps={{
+                onChange: (e) => setChosenLineCode(e.target.value),
+                value: chosenLineCode
+            }}
             displayCondition={chosenType}
             itemsOptionMapper={
                 (item) => (

@@ -17,14 +17,13 @@ function useAutoParamsFor(
             if (setterToEmptyIfNoPrevious && previousValue) {
                 setterToEmptyIfNoPrevious(defaultValue || "");
             }
-            const newParams = searchParams;
             if(value) {
-                newParams.set(paramName, value);
+                searchParams.set(paramName, value);
                 
             } else  {
-                newParams.delete(paramName);
+                searchParams.delete(paramName);
             }
-            setSearchParams(newParams);
+            setSearchParams(searchParams);
     
         }, [value]
     )

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useImperativeHandle } from "react";
 import Select from "../Select/Select";
 
 function StationSelector({
@@ -10,8 +10,10 @@ function StationSelector({
         <Select
             defaultOptionText="Choissisez une station"
             items={stations}
-            state={chosenStation}
-            setState={setChosenStation}
+            selectProps={{
+                onChange: (e) => setChosenStation(e.target.value),
+                value: chosenStation
+            }}
             displayCondition={!!stations.length}
             itemsOptionMapper={
                 (item) => (

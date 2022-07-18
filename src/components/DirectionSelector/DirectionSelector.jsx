@@ -14,8 +14,10 @@ function DirectionSelector({
             defaultOptionText="Toutes directions"
             defaultValue="all"
             items={destinations}
-            state={chosenWay}
-            setState={setChosenWay}
+            selectProps={{
+                onChange: (e) => setChosenWay(e.target.value),
+                value: chosenWay
+            }}
             displayCondition={(chosenLineCode && chosenStation)}
             itemsOptionMapper={
                 (destination) => (
