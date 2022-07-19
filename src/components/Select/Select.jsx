@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledSelect = styled.select`
+    -webkit-appearance: none;
     appearance: none;
     background-color: white;
     min-height: 32px;
