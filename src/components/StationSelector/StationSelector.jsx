@@ -1,31 +1,37 @@
-import React, { useImperativeHandle } from "react";
+import React from "react";
+import { useSearchParams } from "react-router-dom";
 import Select from "../Select/Select";
 
 function StationSelector({
     stations,
-    chosenStation,
-    setChosenStation
 }) {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const chosenStation = searchParams.get("station");
+    
     return (
-        <Select
-            defaultOptionText="Choissisez une station"
-            items={stations}
-            selectProps={{
-                onChange: (e) => setChosenStation(e.target.value),
-                value: chosenStation
-            }}
-            displayCondition={!!stations.length}
-            itemsOptionMapper={
-                (item) => (
-                    <option
-                        value={item.slug}
-                        key={"station-" + item.slug}
-                    >
-                        {item.name}
-                    </option>
-                )
-            }
-        />
+        !!stations.length && (
+            <Select
+                defaultOptionText="Choissisez une station"
+                items={stations}
+                selectProps={{
+                    onChange: (e) => {
+                        searchParams.set("station", e.target.value);   
+                        setSearchParams(searchParams);
+                    },
+                    value: chosenStation
+                }}
+                itemsOptionMapper={
+                    (item) => (
+                        <option
+                            value={item.slug}
+                            key={"station-" + item.slug}
+                        >
+                            {item.name}
+                        </option>
+                    )
+                }
+            />
+        )
     )
 }
 

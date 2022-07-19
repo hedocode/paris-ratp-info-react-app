@@ -23,7 +23,7 @@ function SchedulesResults({
                 schedules.map(
                     (schedule, index) => {
                         if(!isNaN(parseInt(schedule))) {
-                            return;
+                            return null;
                         }
                         const parsedTime = parseInt(schedule.message.split(" ")[0]);
                         const messageIsTime = !isNaN(parsedTime);

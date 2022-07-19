@@ -5,12 +5,11 @@ import { getDestinations } from "../functions/apiCalls";
 function useDestinations(type, code, forceUpdate) {
     const [destinations, setDestinations] = useState([]);
 
-    async function gatherDestination() {
-        setDestinations(await getDestinations(type, code));
-    }
-
     useEffect(
         () => {
+            async function gatherDestination() {
+                setDestinations(await getDestinations(type, code));
+            }
             setDestinations([]);
             gatherDestination();
         }, [type, code, forceUpdate]

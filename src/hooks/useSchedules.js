@@ -6,32 +6,24 @@ import sortSchedules from "../functions/sortSchedules";
 function useSchedules(type, code, station, way, forceUpdate) {
     const [schedules, setSchedules] = useState({});
 
-    async function gatherSchedules() {
-        if(Array.isArray(way)) {
-            let array = [];
-            for(var i = 0; i < way.length; i++) {
-                const w = way[i];
-                try {
-                    const res = await getSchedules(type, code, station, w)
-                    array = array.concat(res);
-                } catch(err) {
-                    array.push(err.response.data.result.code);
-                }
-            }
-            array = array.sort(sortSchedules);
-            setSchedules(array);
-        } else {
-            try {
-                setSchedules(await getSchedules(type, code, station, way));
-            } catch(err) {
-                setSchedules([err.response.data.result.code]);
-            }
-        }
-    }
-
     useEffect(
         () => {
-            setSchedules("Loading");
+            async function gatherSchedules() {
+                let directionsQueryString = way;
+                if(Array.isArray(way)) {
+                    directionsQueryString = way[0];
+                    for(var i = 1; i < way.length; i++) {
+                        directionsQueryString += "+" + way[i];
+                    }
+                }
+                
+                try {
+                    const newSchedules = await getSchedules(type, code, station, directionsQueryString);
+                    setSchedules(newSchedules.sort(sortSchedules));
+                } catch(err) {
+                    setSchedules([err.response.data.result.code]);
+                }
+            }
             gatherSchedules();
         }, [type, code, station, way, forceUpdate]
     )

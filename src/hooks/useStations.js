@@ -3,16 +3,14 @@ import { getStations } from "../functions/apiCalls";
 
 function useStations(chosenType, chosenLineCode, forceUpdate) {
     const [stations, setStations] = useState({});
-
-    async function gatherStations() {
-        setStations(await getStations(chosenType, chosenLineCode))
-    }
-
     useEffect(
         () => {
+            async function gatherStations() {
+                setStations(await getStations(chosenType, chosenLineCode))
+            }
             setStations({});
             gatherStations();
-        }, [chosenLineCode, forceUpdate]
+        }, [chosenType, chosenLineCode, forceUpdate]
     )
 
     return stations;

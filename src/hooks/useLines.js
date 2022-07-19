@@ -9,13 +9,12 @@ import {
 
 function useLines() {
     const [lines, setLines] = useState({});
-
-    async function gatherLines() {
-        setLines(await getLines());
-    }
-
+    
     useEffect(
         () => {
+            async function gatherLines() {
+                setLines(await getLines());
+            }
             gatherLines();
         }, []
     );

@@ -1,32 +1,40 @@
-import React, { Fragment } from "react";
-import "./Select.scss";
+import React from "react";
+import styled from "styled-components";
 
-
+const StyledSelect = styled.select`
+    appearance: none;
+    background-color: white;
+    min-height: 32px;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 6px;
+`;
 
 function Select({
-    displayCondition,
     selectProps,
     defaultOptionText,
     defaultValue = "",
     items,
-    itemsOptionMapper
+    itemsOptionMapper = (item, idx) => (
+        <option key={"select-" + idx + "-" + item}>
+            {item}
+        </option>
+    )
 }) {
     return (
-        <Fragment>
-            { displayCondition && (
-                <select
-                    {...selectProps}
-                >
-                    <option value={defaultValue}>
-                        {defaultOptionText}
-                    </option>
-
-                    {(items && Array.isArray(items)) &&
-                        items.map(itemsOptionMapper)
-                    }
-                </select>
+        <StyledSelect
+            {...selectProps}
+        >
+            {(defaultOptionText) && (
+                <option value={defaultValue}>
+                    {defaultOptionText}
+                </option>
             )}
-        </Fragment> 
+
+            {(items && Array.isArray(items)) &&
+                items.map(itemsOptionMapper)
+            }
+        </StyledSelect>
     );
 }
 
