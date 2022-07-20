@@ -13,6 +13,7 @@ import SchedulesResults from '../../components/ScheduleResult/ScheduleResult';
 import StationSelector from '../../components/StationSelector/StationSelector';
 import './Home.scss';
 
+
 function Home() {
   const wayDefaultValue = "all";
 
