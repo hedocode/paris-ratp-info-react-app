@@ -12,7 +12,7 @@ import LineTypes from '../../components/LineTypes/LineTypes';
 import SchedulesResults from '../../components/ScheduleResult/ScheduleResult';
 import StationSelector from '../../components/StationSelector/StationSelector';
 import './Home.scss';
-import { InfoTrafficSection, ResultsSection, StickyHeader, UserForm, UserFormWrapper } from './StyledComponents/Home.sc';
+import { InfoTrafficSection, ResultsSection, StickyHeader, UserForm, UserFormWrapper } from './Home.sc';
 
 
 function Home() {

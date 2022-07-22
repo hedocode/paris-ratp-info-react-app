@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { black, error_light } from "../../../style/lib/colors";
+import { black, error_light } from "../../style/lib/colors";
 
 const CommonSection = css`
     display: flex;
