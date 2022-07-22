@@ -22,7 +22,7 @@ function DirectionSelector({
                         searchParams.set("way", e.target.value);
                         setSearchParams(searchParams);
                     },
-                    value: chosenWay
+                    value: chosenWay ?? ""
                 }}
                 itemsOptionMapper={
                     (destination) => (

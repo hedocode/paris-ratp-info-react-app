@@ -1,4 +1,18 @@
 import React, { Fragment } from "react";
+import styled from "styled-components";
+import { green_ratp } from "../../style/lib/colors";
+
+const ResultItem = styled.div`
+    background-color: white;
+    border-left: 3px solid transparent;
+    &:hover {
+        border-left-color: ${green_ratp};
+    }
+
+    .info {
+        margin-left: auto;
+    }
+`;
 
 function SchedulesResults({
     error,
@@ -29,7 +43,7 @@ function SchedulesResults({
                         const messageIsTime = !isNaN(parsedTime);
                         const newDate = messageIsTime ? new Date(now.getTime() + parsedTime*60000) : undefined;
                         return (
-                            <div
+                            <ResultItem
                                 className='results__item'
                                 key={"schedule-" + index}
                             >
@@ -45,7 +59,7 @@ function SchedulesResults({
                                         schedule.message
                                     )}
                                 </span>
-                            </div>
+                            </ResultItem>
                         )
                     }
                 )

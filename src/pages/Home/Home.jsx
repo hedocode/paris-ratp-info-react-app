@@ -1,5 +1,5 @@
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import useDestinations from '../../hooks/useDestinations';
 import useLines from '../../hooks/useLines';
@@ -12,12 +12,14 @@ import LineTypes from '../../components/LineTypes/LineTypes';
 import SchedulesResults from '../../components/ScheduleResult/ScheduleResult';
 import StationSelector from '../../components/StationSelector/StationSelector';
 import './Home.scss';
+import { InfoTrafficSection, ResultsSection, StickyHeader, UserForm, UserFormWrapper } from './StyledComponents/Home.sc';
+
 
 function Home() {
   const wayDefaultValue = "all";
 
   // Routing Infos (User choices)
-  const [searchParams, ] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const chosenType = searchParams.get("type");
   const chosenLineCode = searchParams.get("line");
   const chosenStation = searchParams.get("station");
@@ -34,7 +36,8 @@ function Home() {
   const stations = useStations(chosenType, chosenLineCode, stateToForceUpdate);
   const destinations = useDestinations(chosenType, chosenLineCode, stateToForceUpdate);
   const ways = useMemo(
-    () => (chosenWay === wayDefaultValue ?
+    () => (
+      chosenWay === wayDefaultValue ?
         (destinations && destinations.length) ?
           destinations.map(d => d.way)
         :
@@ -63,29 +66,40 @@ function Home() {
 
       return !isDuplicate;
     }
-  )
+  );
 
-  const error = (
-    (
-      Array.isArray(schedules) && (
-        schedules.includes(500)
-        || schedules.filter(x => x.code !== undefined).length > 0
+  const error = useMemo(
+    () => (
+      (
+        Array.isArray(schedules) && (
+          schedules.includes(500)
+          || schedules.filter(x => x.code !== undefined).length > 0
+        )
       )
-    )
-    || !Array.isArray(destinations)
-    || !Array.isArray(stations)
+      || !Array.isArray(destinations)
+      || !Array.isArray(stations)
+    ), [schedules, destinations, stations]
+  );
+
+  useEffect(
+    () => {
+      searchParams.delete("line");
+      searchParams.delete("station");
+      setSearchParams(searchParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [chosenType]
   );
   
   return (
     <main>
-      <header>
+      <StickyHeader>
         <h1>Paris RATP Informations</h1>
           
         <LineTypes/>
-      </header>
+      </StickyHeader>
       
-      <section className='user-form__wrHomeer'>
-        <fieldset className='user-form'>
+      <UserFormWrapper>
+        <UserForm>
           {!chosenType && (
             <div>Choissisez un type de transport ci-dessus</div>
           )}
@@ -101,22 +115,22 @@ function Home() {
           <DirectionSelector
             destinations={destinations}
           />
-        </fieldset>
-      </section>
+        </UserForm>
+      </UserFormWrapper>
 
-      <section className='results'>
+      <ResultsSection>
         <SchedulesResults
           error={error}
           onRetry={forceApiRecall}
           schedules={schedules}
         />
-      </section>
+      </ResultsSection>
 
-      <section className='infoTraffic'>
+      <InfoTrafficSection>
         <span>
           {trafficInfo}
         </span>
-      </section>
+      </InfoTrafficSection>
     </main>
   );
 }

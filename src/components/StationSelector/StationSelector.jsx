@@ -9,7 +9,7 @@ function StationSelector({
     const chosenStation = searchParams.get("station");
     
     return (
-        !!stations.length && (
+        (stations && !!stations.length) && (
             <Select
                 defaultOptionText="Choissisez une station"
                 items={stations}
@@ -18,7 +18,7 @@ function StationSelector({
                         searchParams.set("station", e.target.value);   
                         setSearchParams(searchParams);
                     },
-                    value: chosenStation
+                    value: chosenStation ?? ""
                 }}
                 itemsOptionMapper={
                     (item) => (

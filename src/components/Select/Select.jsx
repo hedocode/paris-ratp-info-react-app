@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { white } from "../../style/lib/colors";
 
 const StyledSelect = styled.select`
     -webkit-appearance: none;
     appearance: none;
-    background-color: white;
+    background-color: ${white};
     min-height: 32px;
     border: 2px solid black;
     border-radius: 4px;
